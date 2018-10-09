@@ -64,7 +64,20 @@
     }
     add_action( 'after_setup_theme','neuron_theme_supports' );
 
-    
+    function neuron_custom_post_type(){
+    register_post_type('slider',
+                       array(
+                           'labels'      => array(
+                               'name'          => __('Slides'),
+                               'singular_name' => __('Slide'),
+                           ),
+                           'public'      => false,
+                           'show_ui'      => true,
+                           'supports'    => array('title','editor','custom-fields','thumbnail','page-attributes'),
+                       )
+        );
+    }
+    add_action('init', 'neuron_custom_post_type');
 
 
     /**
