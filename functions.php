@@ -79,6 +79,65 @@
     }
     add_action('init', 'neuron_custom_post_type');
 
+    function neuron_widgets_init() {
+        register_sidebar( array(
+            'name'          => esc_html__( 'Footer One', 'neuron_widgets_init' ),
+            'id'            => 'footer-1',
+            'description'   => esc_html__( 'Add widgets Footer One.', 'neuron_widgets_init' ),
+            'before_widget' => '<div id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-title">',
+            'after_title'   => '</h3>',
+        ) );
+        register_sidebar( array(
+            'name'          => esc_html__( 'Footer Two', 'neuron_widgets_init' ),
+            'id'            => 'footer-2',
+            'description'   => esc_html__( 'Add widgets Footer Two.', 'neuron_widgets_init' ),
+            'before_widget' => '<div id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-title">',
+            'after_title'   => '</h3>',
+        ) );
+        register_sidebar( array(
+            'name'          => esc_html__( 'Footer Two', 'neuron_widgets_init' ),
+            'id'            => 'footer-3',
+            'description'   => esc_html__( 'Add widgets Footer Two.', 'neuron_widgets_init' ),
+            'before_widget' => '<div id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-title">',
+            'after_title'   => '</h3>',
+        ) );
+    }
+    add_action( 'widgets_init', 'neuron_widgets_init' );
+
+
+    function post_list_shortcode($atts){
+        extract( shortcode_atts( array(
+            'count' => 3,
+        ), $atts) );
+        
+        $q = new WP_Query(
+            array('posts_per_page' => $count, 'post_type' => 'post')
+            );      
+            
+        $list = '<ul>';
+        while($q->have_posts()) : $q->the_post();
+            $idd = get_the_ID();
+            $list .= '
+            <div class="single_post_item">
+                <h2>' .do_shortcode( get_the_title() ). '</h2>
+                '.wpautop( $post_content ).'
+                <p>'.$custom_field.'</p>
+            </div>
+            ';        
+        endwhile;
+        $list.= '</ul>';
+        wp_reset_query();
+        return $list;
+    }
+    add_shortcode('post_list', 'post_list_shortcode'); 
+
+
 
     /**
      * Add the navwalker.
