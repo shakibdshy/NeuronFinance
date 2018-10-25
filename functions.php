@@ -14,8 +14,6 @@
         wp_enqueue_script('bootsnav', get_template_directory_uri() .'/assets/js/bootsnav.js', array('jquery'), '1.0', true );
         wp_enqueue_script('owlcarousel', get_template_directory_uri() .'/assets/js/owl.carousel.min.js', array('jquery'), '2.3.4', true );
         wp_enqueue_script('wow', get_template_directory_uri() .'/assets/js/wow.min.js', array('jquery'), '1.0', true );
-        wp_enqueue_script('ajaxchimp', get_template_directory_uri() .'/assets/js/ajaxchimp.js', array('jquery'), '1.0', true );
-        wp_enqueue_script('ajaxchimp-config', get_template_directory_uri() .'/assets/js/ajaxchimp-config.js', array('jquery'), '1.0', true );
         wp_enqueue_script('neuron-script', get_template_directory_uri() .'/assets/js/script.js', array('jquery'), '1.0', true );
 
 
@@ -29,6 +27,9 @@
         add_theme_support( 'automatic-feed-links' );
         //Add Title
         add_theme_support( 'title-tag' );
+
+        //Support Shortcode
+        add_filter( 'widget_text','do_shortcode' );
         /*
 		 * Enable support for Post Thumbnails on posts and pages.
 		 *
@@ -99,9 +100,18 @@
             'after_title'   => '</h3>',
         ) );
         register_sidebar( array(
-            'name'          => esc_html__( 'Footer Two', 'neuron_widgets_init' ),
+            'name'          => esc_html__( 'Footer Three', 'neuron_widgets_init' ),
             'id'            => 'footer-3',
-            'description'   => esc_html__( 'Add widgets Footer Two.', 'neuron_widgets_init' ),
+            'description'   => esc_html__( 'Add widgets Footer Three.', 'neuron_widgets_init' ),
+            'before_widget' => '<div id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-title">',
+            'after_title'   => '</h3>',
+        ) );
+        register_sidebar( array(
+            'name'          => esc_html__( 'Footer Four', 'neuron_widgets_init' ),
+            'id'            => 'footer-4',
+            'description'   => esc_html__( 'Add widgets Footer Four.', 'neuron_widgets_init' ),
             'before_widget' => '<div id="%1$s" class="widget %2$s">',
             'after_widget'  => '</div>',
             'before_title'  => '<h3 class="widget-title">',
@@ -111,7 +121,7 @@
     add_action( 'widgets_init', 'neuron_widgets_init' );
 
 
-    function post_list_shortcode($atts){
+    function neuron_widgets_shortcode($atts){
         extract( shortcode_atts( array(
             'count' => 3,
         ), $atts) );
@@ -124,18 +134,18 @@
         while($q->have_posts()) : $q->the_post();
             $idd = get_the_ID();
             $list .= '
-            <div class="single_post_item">
-                <h2>' .do_shortcode( get_the_title() ). '</h2>
-                '.wpautop( $post_content ).'
-                <p>'.$custom_field.'</p>
-            </div>
+            <li>
+                '.get_the_post_thumbnail($idd, 'thumbnail').'
+                <p><a href="'.get_permalink().'">'.get_the_title().'</a></p>
+                <span>'.get_the_date('d F Y', $idd).'</span>
+            </li>
             ';        
         endwhile;
         $list.= '</ul>';
         wp_reset_query();
         return $list;
     }
-    add_shortcode('post_list', 'post_list_shortcode'); 
+    add_shortcode('thumb_post', 'neuron_widgets_shortcode'); 
 
 
 
