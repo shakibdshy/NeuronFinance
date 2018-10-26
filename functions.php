@@ -145,15 +145,15 @@
             ?>
 
             <p>
-                <label for="">Title:</label>
-                <input type="text" class="widefat">
+                <label for="<?php echo $this->get_field_id('title');?>">Title:</label>
+                <input type="text" value="<?php echo $instance['title']; ?>" name="<?php echo $this->get_field_name('title'); ?>" id="<?php echo $this->get_field_id('title');?>" class="widefat">
             </p>
             <p>
                 <button class="button">Upload Image</button>
             </p>
             <p>
-                <label for="">Post Title</label>
-                <textarea name="" id="" class="widefat"></textarea>
+                <label for="<?php echo $this->get_field_id('post_title');?>">Post Title</label>
+                <textarea name="<?php echo $this->get_field_name('post_title'); ?>" id="<?php echo $this->get_field_id('post_title');?>" class="widefat"><?php echo $instance['post_title']; ?></textarea>
             </p>
 
             <?php
