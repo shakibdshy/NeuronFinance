@@ -117,8 +117,48 @@
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
         ) );
+        register_widget('latest_post_Widget');
     }
     add_action( 'widgets_init', 'neuron_widgets_init' );
+
+
+    class latest_post_Widget extends WP_Widget{
+        public function __construct(){
+            parent::__construct('latest_post', 'latest_post_box', array(
+                'description' => 'Latest post contained with title, image'
+            ));
+        }
+
+        public function widget($args, $instance){
+            ?>
+            
+            <li>
+                <img src="assets/img/latest-post/1.png" alt="" />
+                <p><a href="#">Headset No Longer Wire For Sound</a></p>
+                <span>12 May 2016</span>
+            </li>
+
+            <?php
+        }
+
+        public function form($instance){
+            ?>
+
+            <p>
+                <label for="">Title:</label>
+                <input type="text" class="widefat">
+            </p>
+            <p>
+                <button class="button">Upload Image</button>
+            </p>
+            <p>
+                <label for="">Post Title</label>
+                <textarea name="" id="" class="widefat"></textarea>
+            </p>
+
+            <?php
+        }
+    }
 
 
     function neuron_widgets_shortcode($atts){
